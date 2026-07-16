@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MyTerapie
 
-## Getting Started
+Marketplace/SaaS premium que conecta **pacientes** e **terapeutas** (foco inicial em psicanalistas). Inspirado na Headspace — identidade turquesa + azul claro, modo claro e escuro.
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router) · **React 19** · **TypeScript**
+- **Tailwind CSS v4** · componentes próprios estilo shadcn/ui
+- **Supabase** (Postgres + Auth) — scaffolding pronto em `src/lib/supabase`
+- Deploy: **Vercel** (recomendado)
+
+> O app roda em **modo demo** com dados de exemplo (`src/lib/data.ts`) sem precisar de backend. Ao configurar as variáveis do Supabase, a camada de dados real entra em ação.
+
+## Rodar localmente
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Estrutura
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+  app/
+    (site)/          # site público: home, busca, perfil, planos, blog, login...
+    painel/          # painel do terapeuta
+    paciente/        # painel do paciente
+    admin/           # painel administrativo
+  components/        # UI, header, footer, cards, dashboard
+  lib/               # dados demo, tipos, utils, clients Supabase
+supabase/
+  migrations/        # 0001_init.sql, 0002_rls.sql
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Banco de dados
 
-## Learn More
+As migrations em `supabase/migrations/` cobrem todas as entidades do escopo
+(usuarios, pacientes, terapeutas, planos, assinaturas, especialidades,
+abordagens, idiomas, avaliacoes, agendamentos, agenda_disponibilidade,
+blog_posts, categorias, solicitacoes_categoria) + RLS.
 
-To learn more about Next.js, take a look at the following resources:
+Aplicar com a Supabase CLI:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+supabase db push
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Configurar Supabase
 
-## Deploy on Vercel
+1. Crie um projeto em supabase.com
+2. Rode as migrations
+3. Copie `.env.example` para `.env.local` e preencha `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Rotas principais
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Rota | Descrição |
+|------|-----------|
+| `/` | Home |
+| `/buscar` | Busca com filtros |
+| `/terapeuta/[slug]` | Perfil / Landing Premium |
+| `/para-terapeutas` · `/planos` | Aquisição de terapeutas |
+| `/blog` · `/blog/[slug]` | Blog |
+| `/entrar` · `/cadastro` | Autenticação (protótipo) |
+| `/paciente` | Painel do paciente |
+| `/painel` | Painel do terapeuta |
+| `/admin` | Painel administrativo |

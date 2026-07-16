@@ -1,26 +1,119 @@
 @import "tailwindcss";
 
+/* Dark mode via .dark class on <html> (Tailwind v4 custom variant) */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Base surfaces */
+  --background: #f7fbfb;
+  --surface: #ffffff;
+  --surface-muted: #eef6f6;
+  --foreground: #0f2b2e;
+  --muted-foreground: #4b6a6c;
+  --border: #dce9e9;
+
+  /* Brand — turquesa primary, azul claro secondary (Headspace-inspired premium) */
+  --primary: #0fb5ae;
+  --primary-hover: #0c9a94;
+  --primary-foreground: #ffffff;
+  --secondary: #4cc9f0;
+  --secondary-soft: #dff3fb;
+  --accent: #f5b971;
+
+  --ring: #0fb5ae;
+  --radius: 1rem;
+}
+
+.dark {
+  --background: #071a1c;
+  --surface: #0d2528;
+  --surface-muted: #12312f;
+  --foreground: #e7f4f3;
+  --muted-foreground: #8fb0b0;
+  --border: #1c3d3d;
+
+  --primary: #2dd4bc;
+  --primary-hover: #43e0c9;
+  --primary-foreground: #04211f;
+  --secondary: #5fd0f5;
+  --secondary-soft: #10353f;
+  --accent: #f5b971;
+
+  --ring: #2dd4bc;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-soft: var(--secondary-soft);
+  --color-accent: var(--accent);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 0.5rem);
+  --radius-2xl: calc(var(--radius) + 1rem);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--primary) 25%, transparent);
+}
+
+/* Soft ambient gradient used across hero / section backgrounds */
+.bg-aurora {
+  background-image:
+    radial-gradient(60% 55% at 12% 8%, color-mix(in srgb, var(--primary) 22%, transparent), transparent 70%),
+    radial-gradient(55% 50% at 92% 4%, color-mix(in srgb, var(--secondary) 26%, transparent), transparent 70%),
+    radial-gradient(70% 60% at 50% 100%, color-mix(in srgb, var(--primary) 10%, transparent), transparent 75%);
+}
+
+.glass {
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  backdrop-filter: saturate(160%) blur(14px);
+}
+
+@keyframes float-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-in { animation: float-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@keyframes blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(18px, -22px) scale(1.06); }
+  66% { transform: translate(-14px, 12px) scale(0.96); }
+}
+.animate-blob { animation: blob 14s ease-in-out infinite; }
+
+/* Thin, refined scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--muted-foreground) 35%, transparent);
+  border-radius: 9999px;
+  border: 3px solid var(--background);
 }
