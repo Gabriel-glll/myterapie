@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Menu, X, LogOut, ArrowLeft } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { getSession, logout } from "@/lib/auth";
 
 export type NavItem = { href: string; label: string; icon: LucideIcon };
 
@@ -22,7 +23,20 @@ export function DashboardShell({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+
+  // Usa o nome da sessão de teste, se houver.
+  const [nome, setNome] = useState(user);
+  useEffect(() => {
+    const s = getSession();
+    if (s?.nome) setNome(s.nome);
+  }, []);
+
+  function sair() {
+    logout();
+    router.push("/entrar");
+  }
 
   const nav = (
     <nav className="flex flex-col gap-1">
@@ -67,12 +81,12 @@ export function DashboardShell({
           >
             <ArrowLeft className="h-[18px] w-[18px]" /> Voltar ao site
           </Link>
-          <Link
-            href="/"
-            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-muted-foreground hover:bg-surface-muted"
+          <button
+            onClick={sair}
+            className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm text-muted-foreground hover:bg-surface-muted"
           >
             <LogOut className="h-[18px] w-[18px]" /> Sair
-          </Link>
+          </button>
         </div>
       </aside>
 
@@ -87,13 +101,13 @@ export function DashboardShell({
               <Menu className="h-5 w-5" />
             </button>
             <span className="text-sm text-muted-foreground">
-              Olá, <span className="font-medium text-foreground">{user}</span>
+              Olá, <span className="font-medium text-foreground">{nome}</span>
             </span>
           </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <span className="hidden h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary to-secondary text-sm font-semibold text-white sm:flex">
-              {user.slice(0, 1)}
+              {nome.slice(0, 1)}
             </span>
           </div>
         </header>

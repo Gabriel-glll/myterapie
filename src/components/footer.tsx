@@ -6,7 +6,7 @@ export function Footer() {
     <footer className="border-t border-border bg-surface">
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
         {/* Versículo em destaque */}
-        <div className="mb-12 rounded-2xl bg-aurora border border-border px-6 py-8 text-center">
+        <div className="mb-12 px-6 py-8 text-center">
           <p className="mx-auto max-w-2xl text-lg font-medium italic text-foreground">
             “Se nós, porém, nos julgássemos a nós mesmos, não seríamos julgados.”
           </p>
