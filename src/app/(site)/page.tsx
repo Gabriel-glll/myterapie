@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { TERAPEUTAS, ESPECIALIDADES, BLOG_POSTS } from "@/lib/data";
 import { TherapistCard } from "@/components/therapist-card";
+import { BannerCarousel } from "@/components/banner-carousel";
 import { Button, Badge } from "@/components/ui";
 
 export default function HomePage() {
@@ -19,6 +20,9 @@ export default function HomePage() {
 
   return (
     <>
+      {/* ============================================ BANNERS */}
+      <BannerCarousel />
+
       {/* ============================================ HERO */}
       <section className="relative overflow-hidden bg-aurora">
         <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-primary/20 blur-3xl animate-blob" />
@@ -30,21 +34,20 @@ export default function HomePage() {
               <Sparkles className="h-3.5 w-3.5" /> Cuidado que faz sentido
             </Badge>
             <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-6xl">
-              Encontre o terapeuta ideal para a{" "}
+              Encontre o profissional{" "}
               <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                sua jornada
+                ideal para você!
               </span>
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-              Uma plataforma premium que conecta você a profissionais de
-              confiança. Busque por especialidade, abordagem e valores — no seu
-              tempo, do seu jeito.
+              <span className="font-semibold text-foreground">MyTerapie</span> — uma
+              plataforma que conecta você a profissionais da área de saúde mental.
             </p>
 
             {/* Dois caminhos */}
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Button href="/buscar" size="lg" className="w-full sm:w-auto">
-                <UserRoundSearch className="h-5 w-5" /> Quero encontrar um terapeuta
+              <Button href="/descobrir" size="lg" className="w-full sm:w-auto">
+                <UserRoundSearch className="h-5 w-5" /> Quero encontrar um profissional
               </Button>
               <Button
                 href="/para-terapeutas"

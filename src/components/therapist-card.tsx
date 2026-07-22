@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Video, Users, Crown } from "lucide-react";
+import { MapPin, Video, Users } from "lucide-react";
 import type { Terapeuta } from "@/lib/types";
 import { formatBRL } from "@/lib/utils";
 import { Badge, Stars } from "./ui";
@@ -19,11 +19,6 @@ export function TherapistCard({ t }: { t: Terapeuta }) {
           sizes="(max-width: 768px) 100vw, 320px"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        {t.plano === "premium" && (
-          <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-1 text-xs font-semibold text-[#3a2a12] shadow">
-            <Crown className="h-3.5 w-3.5" /> Premium
-          </span>
-        )}
         {t.primeiraGratuita && (
           <span className="absolute right-3 top-3 rounded-full bg-primary px-2.5 py-1 text-xs font-semibold text-primary-foreground shadow">
             1ª grátis

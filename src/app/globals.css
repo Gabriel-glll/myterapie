@@ -4,13 +4,13 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* Base surfaces */
-  --background: #f7fbfb;
+  /* Base surfaces — contraste reforçado para os cards se destacarem */
+  --background: #e6f1f1;
   --surface: #ffffff;
-  --surface-muted: #eef6f6;
-  --foreground: #0f2b2e;
-  --muted-foreground: #4b6a6c;
-  --border: #dce9e9;
+  --surface-muted: #d3e8e8;
+  --foreground: #04211f;
+  --muted-foreground: #325658;
+  --border: #b4d3d3;
 
   /* Brand — turquesa primary, azul claro secondary (Headspace-inspired premium) */
   --primary: #0fb5ae;
@@ -25,12 +25,12 @@
 }
 
 .dark {
-  --background: #071a1c;
-  --surface: #0d2528;
-  --surface-muted: #12312f;
-  --foreground: #e7f4f3;
-  --muted-foreground: #8fb0b0;
-  --border: #1c3d3d;
+  --background: #03100f;
+  --surface: #0f2c2e;
+  --surface-muted: #17403f;
+  --foreground: #f1fbfa;
+  --muted-foreground: #a6c6c6;
+  --border: #2a5252;
 
   --primary: #2dd4bc;
   --primary-hover: #43e0c9;

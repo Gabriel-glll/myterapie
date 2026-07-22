@@ -49,13 +49,24 @@ export function BuscarClient() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   // Lê os parâmetros da URL no cliente (compatível com static export).
+  // Aceita o handoff vindo do fluxo /descobrir.
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
-    const q = p.get("q");
-    const especialidade = p.get("especialidade");
-    if (q || especialidade) {
-      setF((prev) => ({ ...prev, q: q ?? prev.q, especialidade: especialidade ?? prev.especialidade }));
-    }
+    if ([...p.keys()].length === 0) return;
+    const precoMax = Number(p.get("precoMax"));
+    setF((prev) => ({
+      ...prev,
+      q: p.get("q") ?? prev.q,
+      especialidade: p.get("especialidade") ?? prev.especialidade,
+      abordagem: p.get("abordagem") ?? prev.abordagem,
+      idioma: p.get("idioma") ?? prev.idioma,
+      publico: p.get("publico") ?? prev.publico,
+      estado: p.get("estado") ?? prev.estado,
+      online: p.get("online") === "1" || prev.online,
+      presencial: p.get("presencial") === "1" || prev.presencial,
+      primeiraGratuita: p.get("primeiraGratuita") === "1" || prev.primeiraGratuita,
+      precoMax: precoMax > 0 ? precoMax : prev.precoMax,
+    }));
   }, []);
 
   const set = <K extends keyof Filtros>(k: K, v: Filtros[K]) =>
