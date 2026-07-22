@@ -31,11 +31,11 @@ export default function LandingPage() {
             <div>
               <p className="font-semibold text-foreground">Sua landing está publicada</p>
               <p className="text-sm text-muted-foreground">
-                myterapie.com/terapeuta/ana-beatriz-moraes
+                myterapie.com/terapeuta/ana-beatriz-moraes/landing
               </p>
             </div>
           </div>
-          <Button href="/terapeuta/ana-beatriz-moraes" variant="outline">
+          <Button href="/terapeuta/ana-beatriz-moraes/landing" variant="outline">
             Ver página <ExternalLink className="h-4 w-4" />
           </Button>
         </div>
