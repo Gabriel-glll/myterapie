@@ -35,7 +35,8 @@ export function AuthForm({ mode }: { mode: "entrar" | "cadastro" }) {
         setErro("E-mail ou senha inválidos. Use uma conta de teste abaixo.");
         return;
       }
-      router.push(panelPath(user.role));
+      // Terapeuta de teste entra como "acabei de assinar o plano" (onboarding).
+      router.push(user.role === "terapeuta" ? "/comecar" : panelPath(user.role));
       return;
     }
 
@@ -45,7 +46,8 @@ export function AuthForm({ mode }: { mode: "entrar" | "cadastro" }) {
       email,
       role: tipo,
     });
-    router.push(tipo === "terapeuta" ? "/painel" : "/paciente");
+    // Terapeuta recém-assinante vai para o cadastro por etapas.
+    router.push(tipo === "terapeuta" ? "/comecar" : "/paciente");
   }
 
   function preencherTeste(role: "paciente" | "terapeuta") {
