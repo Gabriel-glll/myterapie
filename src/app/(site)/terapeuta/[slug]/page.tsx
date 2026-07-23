@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
+import { ProfilePhoto } from "@/components/profile-photo";
 import Link from "next/link";
 import type { Metadata } from "next";
 import {
@@ -190,9 +190,11 @@ export default async function TerapeutaPage({
       {/* ===================================================== HERO / PRINCIPAIS */}
       <section className="relative overflow-hidden border-b border-border bg-aurora">
         <div className="mx-auto flex max-w-5xl flex-col items-start gap-6 px-4 py-10 sm:px-6 md:flex-row md:items-center">
-          <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-3xl border-4 border-surface shadow-xl sm:h-40 sm:w-40">
-            <Image src={t.foto} alt={t.nome} fill sizes="160px" className="object-cover" />
-          </div>
+          <ProfilePhoto
+            src={t.foto}
+            alt={t.nome}
+            className="h-32 w-32 rounded-3xl border-4 border-surface shadow-xl sm:h-40 sm:w-40"
+          />
 
           <div className="flex-1">
             <div className="flex flex-wrap items-center gap-2">

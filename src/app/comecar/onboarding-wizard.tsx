@@ -14,7 +14,6 @@ import {
   Languages,
   Sparkles,
   Wallet,
-  LayoutTemplate,
   Plus,
   X,
 } from "lucide-react";
@@ -99,9 +98,6 @@ export function OnboardingWizard() {
     { key: "idiomas", label: "Idiomas", icon: Languages },
     { key: "especialidades", label: "Especialidades", icon: Sparkles },
     { key: "atendimento", label: "Atendimento e valores", icon: Wallet },
-    ...(PLANO === "premium"
-      ? [{ key: "landing", label: "Landing Page Premium", icon: LayoutTemplate }]
-      : []),
   ];
   const totalPassos = steps.length;
 
@@ -146,14 +142,6 @@ export function OnboardingWizard() {
               Ver meu perfil
             </Button>
           </div>
-          {PLANO === "premium" && (
-            <Link
-              href="/terapeuta/ana-beatriz-moraes/landing"
-              className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-            >
-              <Crown className="h-4 w-4" /> Ver minha Landing Page Premium
-            </Link>
-          )}
         </div>
       </div>
     );
@@ -387,29 +375,6 @@ export function OnboardingWizard() {
             </div>
           )}
 
-          {stepKey === "landing" && (
-            <div className="space-y-5">
-              <div className="flex items-center gap-2 rounded-xl bg-secondary-soft p-3 text-sm text-primary">
-                <Crown className="h-5 w-5 text-accent" />
-                Recurso exclusivo do seu Plano Premium: uma landing page pessoal focada
-                em conversão.
-              </div>
-              <Field label="Vídeo de apresentação (link do YouTube)">
-                <Text
-                  value={form.video}
-                  onChange={(v) => set("video", v)}
-                  placeholder="https://youtube.com/…"
-                />
-              </Field>
-              <Field label="Instagram (opcional)">
-                <Text value={form.instagram} onChange={(v) => set("instagram", v)} placeholder="@seu.perfil" />
-              </Field>
-              <div className="rounded-xl border border-dashed border-border p-5 text-center text-sm text-muted-foreground">
-                Foto de capa e galeria podem ser enviadas depois, direto no painel da
-                Landing Page.
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Navegação */}

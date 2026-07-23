@@ -33,7 +33,7 @@ export default function PacienteHome() {
           <Search className="h-4 w-4" /> Buscar mais
         </Link>
       </div>
-      <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-4 grid gap-6 lg:grid-cols-2">
         {sugestoes.map((t) => (
           <TherapistCard key={t.id} t={t} />
         ))}

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
+import { ProfilePhoto } from "@/components/profile-photo";
 import Link from "next/link";
 import type { Metadata } from "next";
 import {
@@ -56,9 +56,11 @@ export default async function LandingPage({
           </Link>
 
           <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:text-left">
-            <div className="relative h-36 w-36 shrink-0 overflow-hidden rounded-full border-4 border-surface shadow-2xl">
-              <Image src={t.foto} alt={t.nome} fill sizes="144px" className="object-cover" />
-            </div>
+            <ProfilePhoto
+              src={t.foto}
+              alt={t.nome}
+              className="h-36 w-36 rounded-full border-4 border-surface shadow-2xl"
+            />
             <div>
               <Badge tone="primary" className="mb-3">
                 <BadgeCheck className="h-3.5 w-3.5" /> Profissional verificado

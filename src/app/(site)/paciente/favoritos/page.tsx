@@ -7,7 +7,7 @@ export default function FavoritosPage() {
   return (
     <>
       <PageHeader title="Favoritos" subtitle="Terapeutas que você salvou." />
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 lg:grid-cols-2">
         {favoritos.map((t) => (
           <TherapistCard key={t.id} t={t} />
         ))}

@@ -9,23 +9,25 @@ export function TherapistCard({ t }: { t: Terapeuta }) {
   return (
     <Link
       href={`/terapeuta/${t.slug}`}
-      className="group flex flex-col overflow-hidden rounded-3xl border border-border bg-surface shadow-sm transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/10"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-sm transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/10 sm:flex-row"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-surface-muted">
+      {/* Foto — à esquerda no desktop (card retangular) */}
+      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-surface-muted sm:aspect-auto sm:w-56 md:w-64">
         <Image
           src={t.foto}
           alt={t.nome}
           fill
-          sizes="(max-width: 768px) 100vw, 480px"
+          sizes="(max-width: 640px) 100vw, 288px"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         {t.primeiraGratuita && (
-          <span className="absolute right-4 top-4 rounded-full bg-primary px-3 py-1.5 text-sm font-semibold text-primary-foreground shadow">
+          <span className="absolute left-4 top-4 rounded-full bg-primary px-3 py-1.5 text-sm font-semibold text-primary-foreground shadow">
             1ª grátis
           </span>
         )}
       </div>
 
+      {/* Conteúdo — à direita */}
       <div className="flex flex-1 flex-col p-6">
         <h3 className="text-2xl font-bold leading-tight text-foreground">{t.nome}</h3>
         <p className="mt-1 text-base text-muted-foreground">{t.titulo}</p>
@@ -72,7 +74,7 @@ export function TherapistCard({ t }: { t: Terapeuta }) {
           )}
         </div>
 
-        <div className="mt-5 flex items-center justify-between border-t border-border pt-5">
+        <div className="mt-auto flex items-center justify-between border-t border-border pt-5">
           <span className="text-base text-muted-foreground">
             a partir de{" "}
             <span className="text-lg font-bold text-foreground">

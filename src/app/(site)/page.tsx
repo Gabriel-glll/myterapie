@@ -168,7 +168,7 @@ export default function HomePage() {
             Ver todos <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-6 lg:grid-cols-2">
           {destaques.map((t) => (
             <TherapistCard key={t.id} t={t} />
           ))}
