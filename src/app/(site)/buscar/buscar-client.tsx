@@ -218,7 +218,7 @@ export function BuscarClient() {
               Nenhum terapeuta encontrado com esses filtros. Tente ampliar sua busca.
             </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-8 sm:grid-cols-2">
               {resultados.map((t) => (
                 <TherapistCard key={t.id} t={t} />
               ))}
