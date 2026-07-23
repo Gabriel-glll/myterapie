@@ -94,6 +94,23 @@ export default function PerfilPage() {
               </button>
             </div>
           </div>
+          <div>
+            <span className="mb-2 block text-sm font-medium text-foreground">
+              Convênios aceitos
+            </span>
+            <div className="flex flex-wrap gap-2">
+              <Badge tone="primary">Unimed</Badge>
+              <Badge tone="primary">Bradesco Saúde</Badge>
+              <Badge tone="primary">Amil</Badge>
+              <Badge tone="primary">SulAmérica</Badge>
+              <button className="rounded-full border border-dashed border-border px-3 py-1 text-xs text-muted-foreground">
+                Solicitar novo convênio
+              </button>
+            </div>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Não atende por convênio? Deixe em branco.
+            </p>
+          </div>
         </Group>
       </div>
 
