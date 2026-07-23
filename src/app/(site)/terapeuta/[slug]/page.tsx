@@ -45,38 +45,52 @@ export default async function TerapeutaPage({
   if (!t) notFound();
 
   /* ------------------------------------------- slides (cada um preenche a tela) */
+  const foto = (id: string) =>
+    `https://images.unsplash.com/${id}?w=640&q=80&auto=format&fit=crop`;
+
   const slides: Slide[] = [
     {
       label: "Sobre",
+      image: t.foto,
+      imageAlt: t.nome,
       content: (
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-foreground sm:text-3xl">Sobre</h2>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+        <div>
+          <h2 className="text-xl font-bold text-foreground sm:text-2xl">Sobre</h2>
+          <p className="mt-3 text-lg leading-relaxed text-muted-foreground">
             {t.sobre}
           </p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {t.especialidades.slice(0, 3).map((e) => (
+              <Badge key={e} tone="primary">
+                {e}
+              </Badge>
+            ))}
+          </div>
         </div>
       ),
     },
     {
       label: "Especialidades",
+      image: foto("photo-1506126613408-eca07ce68773"),
+      imageAlt: "Bem-estar e equilíbrio",
       content: (
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-foreground sm:text-3xl">
+        <div>
+          <h2 className="text-xl font-bold text-foreground sm:text-2xl">
             Especialidades
           </h2>
-          <div className="mt-6 flex flex-wrap justify-center gap-2.5">
+          <div className="mt-3 flex flex-wrap gap-2">
             {t.especialidades.map((e) => (
-              <Badge key={e} tone="primary" className="px-4 py-2 text-sm">
+              <Badge key={e} tone="primary" className="px-4 py-1.5 text-sm">
                 {e}
               </Badge>
             ))}
           </div>
-          <h3 className="mt-10 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+          <h3 className="mt-6 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
             Abordagem
           </h3>
-          <div className="mt-3 flex flex-wrap justify-center gap-2.5">
+          <div className="mt-2 flex flex-wrap gap-2">
             {t.abordagens.map((a) => (
-              <Badge key={a} className="px-4 py-2 text-sm">
+              <Badge key={a} className="px-4 py-1.5 text-sm">
                 {a}
               </Badge>
             ))}
@@ -86,51 +100,49 @@ export default async function TerapeutaPage({
     },
     {
       label: "Formação",
+      image: foto("photo-1481627834876-b7833e8f5570"),
+      imageAlt: "Livros e estudo",
       content: (
-        <div className="grid gap-6 sm:grid-cols-2">
-          <Card>
-            <h3 className="flex items-center gap-2 font-semibold text-foreground">
-              <GraduationCap className="h-5 w-5 text-primary" /> Formação
-            </h3>
-            <ul className="mt-4 space-y-3 text-muted-foreground">
-              {t.formacao.map((fo) => (
-                <li key={fo}>• {fo}</li>
-              ))}
-            </ul>
-          </Card>
-          <Card>
-            <h3 className="flex items-center gap-2 font-semibold text-foreground">
-              <Languages className="h-5 w-5 text-primary" /> Idiomas
-            </h3>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {t.idiomas.map((i) => (
-                <Badge key={i}>{i}</Badge>
-              ))}
-            </div>
-            <h3 className="mt-6 font-semibold text-foreground">Público atendido</h3>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {t.publicos.map((p) => (
-                <Badge key={p} tone="primary">
-                  {p}
-                </Badge>
-              ))}
-            </div>
-          </Card>
+        <div>
+          <h2 className="flex items-center gap-2 text-xl font-bold text-foreground sm:text-2xl">
+            <GraduationCap className="h-6 w-6 text-primary" /> Formação
+          </h2>
+          <ul className="mt-3 space-y-2 text-muted-foreground">
+            {t.formacao.map((fo) => (
+              <li key={fo}>• {fo}</li>
+            ))}
+          </ul>
+          <h3 className="mt-5 flex items-center gap-2 font-semibold text-foreground">
+            <Languages className="h-5 w-5 text-primary" /> Idiomas
+          </h3>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {t.idiomas.map((i) => (
+              <Badge key={i}>{i}</Badge>
+            ))}
+          </div>
+          <h3 className="mt-5 font-semibold text-foreground">Público atendido</h3>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {t.publicos.map((p) => (
+              <Badge key={p} tone="primary">
+                {p}
+              </Badge>
+            ))}
+          </div>
         </div>
       ),
     },
     {
       label: "Agenda",
+      image: foto("photo-1506784983877-45594efa4cbe"),
+      imageAlt: "Agenda e planejamento",
       content: (
         <div>
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-foreground sm:text-3xl">Agenda</h2>
-            <p className="mx-auto mt-2 max-w-lg text-sm text-muted-foreground">
-              Escolha data e horário. A solicitação é enviada ao terapeuta para
-              aprovação.
-            </p>
-          </div>
-          <div className="mx-auto mt-6 max-w-xl">
+          <h2 className="text-xl font-bold text-foreground sm:text-2xl">Agenda</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Escolha data e horário. A solicitação é enviada ao terapeuta para
+            aprovação.
+          </p>
+          <div className="mt-4">
             <AgendaWidget terapeuta={t.nome} agendaAberta={t.agendaAberta} />
           </div>
         </div>
@@ -138,31 +150,35 @@ export default async function TerapeutaPage({
     },
     {
       label: "Avaliações",
+      image: foto("photo-1521791136064-7986c2920216"),
+      imageAlt: "Confiança e acolhimento",
       content: (
         <div>
-          <div className="flex items-center justify-center gap-3">
-            <h2 className="text-2xl font-bold text-foreground sm:text-3xl">Avaliações</h2>
+          <div className="flex items-center gap-3">
+            <h2 className="text-xl font-bold text-foreground sm:text-2xl">
+              Avaliações
+            </h2>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary-soft px-3 py-1 text-sm font-semibold text-primary">
               <Star className="h-4 w-4 fill-current" /> {t.notaMedia.toFixed(1)} ·{" "}
               {t.totalAvaliacoes}
             </span>
           </div>
-          <div className="mx-auto mt-6 max-w-2xl space-y-4">
+          <div className="mt-4 space-y-3">
             {t.avaliacoes.map((a) => (
-              <Card key={a.id}>
+              <Card key={a.id} className="p-4">
                 <div className="flex items-center justify-between">
                   <span className="font-medium text-foreground">{a.paciente}</span>
                   <Stars value={a.nota} size={14} />
                 </div>
-                <p className="mt-2 text-muted-foreground">{a.comentario}</p>
+                <p className="mt-1.5 text-sm text-muted-foreground">{a.comentario}</p>
               </Card>
             ))}
-            <div className="rounded-2xl border border-dashed border-border p-4 text-center text-sm text-muted-foreground">
+            <p className="text-center text-xs text-muted-foreground">
               Somente pacientes autenticados podem avaliar.{" "}
               <Link href="/entrar" className="font-medium text-primary hover:underline">
                 Entrar
               </Link>
-            </div>
+            </p>
           </div>
         </div>
       ),

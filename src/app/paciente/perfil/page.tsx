@@ -21,10 +21,16 @@ export default function PacientePerfilPage() {
         <Input label="Nome completo" value="Marina Lopes" />
         <Input label="E-mail" value="marina@email.com" />
         <div className="grid grid-cols-2 gap-3">
+          <Input label="CPF" value="123.456.789-00" />
+          <Input label="Data de nascimento" value="15/03/1992" />
+        </div>
+        <Input label="Endereço completo" value="Rua das Flores, 123 — Apto 45, Jardim Paulista" />
+        <div className="grid grid-cols-2 gap-3">
           <Input label="Cidade" value="São Paulo" />
           <Input label="Estado" value="SP" />
         </div>
         <Input label="Telefone" value="(11) 99999-0000" />
+        <Input label="Convênio" value="Unimed — Plano Completo" />
         <div className="flex justify-end gap-3 pt-2">
           <Button variant="outline">Cancelar</Button>
           <Button>Salvar</Button>

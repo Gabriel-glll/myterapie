@@ -1,9 +1,15 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export type Slide = { label: string; content: React.ReactNode };
+export type Slide = {
+  label: string;
+  image: string;
+  imageAlt: string;
+  content: React.ReactNode;
+};
 
 export function ProfileCarousel({ slides }: { slides: Slide[] }) {
   const [i, setI] = useState(0);
@@ -32,7 +38,7 @@ export function ProfileCarousel({ slides }: { slides: Slide[] }) {
   return (
     <div className="relative">
       {/* Rótulos das informações */}
-      <div className="mx-auto mb-5 flex max-w-5xl flex-wrap items-center justify-center gap-2 px-4">
+      <div className="mx-auto mb-4 flex max-w-5xl flex-wrap items-center justify-center gap-2 px-4">
         {slides.map((s, idx) => (
           <button
             key={s.label}
@@ -49,7 +55,7 @@ export function ProfileCarousel({ slides }: { slides: Slide[] }) {
       </div>
 
       <div className="relative">
-        {/* Track — cada informação preenche a tela */}
+        {/* Track — compacto e visual: foto ao lado do conteúdo */}
         <div
           className="overflow-hidden"
           onPointerDown={onDown}
@@ -59,16 +65,31 @@ export function ProfileCarousel({ slides }: { slides: Slide[] }) {
           style={{ touchAction: "pan-y" }}
         >
           <div
-            className="flex"
+            className="flex items-start"
             style={{
               transform: `translateX(calc(${-i * 100}% + ${drag}px))`,
-              transition: startX.current === null ? "transform 0.4s cubic-bezier(0.16,1,0.3,1)" : "none",
+              transition:
+                startX.current === null
+                  ? "transform 0.4s cubic-bezier(0.16,1,0.3,1)"
+                  : "none",
             }}
           >
             {slides.map((s) => (
               <div key={s.label} className="w-full shrink-0 px-4 sm:px-6">
-                <div className="mx-auto flex min-h-[68vh] max-w-4xl select-none flex-col justify-center py-6">
-                  {s.content}
+                <div className="mx-auto grid max-w-5xl select-none items-center gap-6 py-2 md:grid-cols-[5fr_7fr] md:gap-10">
+                  {/* Foto do slide */}
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-border shadow-lg md:aspect-[4/5] md:max-h-[420px]">
+                    <Image
+                      src={s.image}
+                      alt={s.imageAlt}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 420px"
+                      className="object-cover"
+                      draggable={false}
+                    />
+                  </div>
+                  {/* Conteúdo */}
+                  <div className="md:py-2">{s.content}</div>
                 </div>
               </div>
             ))}
@@ -80,7 +101,7 @@ export function ProfileCarousel({ slides }: { slides: Slide[] }) {
           onClick={() => go(i - 1)}
           disabled={i === 0}
           aria-label="Informação anterior"
-          className="absolute left-2 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-surface text-foreground shadow-lg transition hover:bg-surface-muted disabled:pointer-events-none disabled:opacity-0 sm:left-4"
+          className="absolute left-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-surface text-foreground shadow-lg transition hover:bg-surface-muted disabled:pointer-events-none disabled:opacity-0 sm:left-3"
         >
           <ChevronLeft className="h-6 w-6" />
         </button>
@@ -88,14 +109,14 @@ export function ProfileCarousel({ slides }: { slides: Slide[] }) {
           onClick={() => go(i + 1)}
           disabled={i === total - 1}
           aria-label="Próxima informação"
-          className="absolute right-2 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-surface text-foreground shadow-lg transition hover:bg-surface-muted disabled:pointer-events-none disabled:opacity-0 sm:right-4"
+          className="absolute right-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-surface text-foreground shadow-lg transition hover:bg-surface-muted disabled:pointer-events-none disabled:opacity-0 sm:right-3"
         >
           <ChevronRight className="h-6 w-6" />
         </button>
       </div>
 
       {/* Indicadores */}
-      <div className="mt-6 flex items-center justify-center gap-2">
+      <div className="mt-5 flex items-center justify-center gap-2">
         {slides.map((s, idx) => (
           <button
             key={s.label}
@@ -107,7 +128,7 @@ export function ProfileCarousel({ slides }: { slides: Slide[] }) {
           />
         ))}
       </div>
-      <p className="mt-3 text-center text-xs text-muted-foreground">
+      <p className="mt-2 text-center text-xs text-muted-foreground">
         Use as setas ou arraste para o lado para ver mais.
       </p>
     </div>
