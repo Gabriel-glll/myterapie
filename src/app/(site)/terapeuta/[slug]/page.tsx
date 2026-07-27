@@ -143,7 +143,12 @@ export default async function TerapeutaPage({
             aprovação.
           </p>
           <div className="mt-4">
-            <AgendaWidget terapeuta={t.nome} agendaAberta={t.agendaAberta} />
+            <AgendaWidget
+              terapeuta={t.nome}
+              slug={t.slug}
+              disponibilidade={t.disponibilidade}
+              agendaAberta={t.agendaAberta}
+            />
           </div>
         </div>
       ),

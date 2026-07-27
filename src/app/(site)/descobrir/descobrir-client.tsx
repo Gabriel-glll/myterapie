@@ -12,81 +12,85 @@ import {
   Video,
   RotateCcw,
 } from "lucide-react";
-import { TERAPEUTAS, ESPECIALIDADES, ABORDAGENS, PUBLICOS } from "@/lib/data";
-import type { Terapeuta } from "@/lib/types";
+import { TERAPEUTAS, ABORDAGENS, PUBLICOS } from "@/lib/data";
+import type { Terapeuta, Disponibilidade } from "@/lib/types";
 import { formatBRL } from "@/lib/utils";
 import { Button, Stars } from "@/components/ui";
 
 /* ------------------------------------------------------------- perguntas */
 type Answers = {
-  especialidade?: string;
-  modalidade?: string;
-  publico?: string;
-  abordagem?: string;
-  precoMax?: number;
-  primeiraGratuita?: string;
+  modalidade: string[];
+  genero: string[];
+  publico: string[];
+  horario: string[];
+  abordagem: string[];
+  primeiraGratuita: string[];
+};
+
+const vazio: Answers = {
+  modalidade: [],
+  genero: [],
+  publico: [],
+  horario: [],
+  abordagem: [],
+  primeiraGratuita: [],
 };
 
 type Step = {
   key: keyof Answers;
   titulo: string;
   subtitulo: string;
-  options: { label: string; value: string | number }[];
+  options: { label: string; value: string }[];
 };
+
+const HLABEL: Record<string, string> = { manha: "manhã", tarde: "tarde", noite: "noite" };
 
 const STEPS: Step[] = [
   {
-    key: "especialidade",
-    titulo: "O que você gostaria de trabalhar?",
-    subtitulo: "Escolha o tema que mais faz sentido para o seu momento.",
-    options: [
-      ...ESPECIALIDADES.map((e) => ({ label: e, value: e })),
-      { label: "Ainda não sei", value: "" },
-    ],
-  },
-  {
     key: "modalidade",
     titulo: "Como você prefere ser atendido?",
-    subtitulo: "Você pode mudar isso depois.",
+    subtitulo: "Pode escolher mais de uma opção.",
     options: [
       { label: "Online", value: "Online" },
       { label: "Presencial", value: "Presencial" },
-      { label: "Tanto faz", value: "" },
+    ],
+  },
+  {
+    key: "genero",
+    titulo: "Prefere um profissional homem ou mulher?",
+    subtitulo: "Marque um, os dois, ou nenhum se tanto faz.",
+    options: [
+      { label: "Homem", value: "homem" },
+      { label: "Mulher", value: "mulher" },
     ],
   },
   {
     key: "publico",
     titulo: "Para quem é o atendimento?",
-    subtitulo: "Assim encontramos quem tem experiência com o seu caso.",
+    subtitulo: "Pode escolher mais de uma opção.",
     options: PUBLICOS.map((p) => ({ label: p, value: p })),
+  },
+  {
+    key: "horario",
+    titulo: "Qual horário você prefere?",
+    subtitulo: "Comparamos com a agenda disponível de cada profissional.",
+    options: [
+      { label: "Manhã", value: "manha" },
+      { label: "Tarde", value: "tarde" },
+      { label: "Noite", value: "noite" },
+    ],
   },
   {
     key: "abordagem",
     titulo: "Tem preferência de abordagem?",
-    subtitulo: "Se não conhece, tudo bem — deixe no automático.",
-    options: [
-      ...ABORDAGENS.map((a) => ({ label: a, value: a })),
-      { label: "Não tenho preferência", value: "" },
-    ],
-  },
-  {
-    key: "precoMax",
-    titulo: "Qual valor cabe no seu momento?",
-    subtitulo: "Valor por consulta.",
-    options: [
-      { label: "Até R$ 130", value: 130 },
-      { label: "Até R$ 170", value: 170 },
-      { label: "Sem limite definido", value: 250 },
-    ],
+    subtitulo: "Opcional — pode escolher mais de uma.",
+    options: ABORDAGENS.map((a) => ({ label: a, value: a })),
   },
   {
     key: "primeiraGratuita",
     titulo: "Quer priorizar quem oferece 1ª consulta gratuita?",
-    subtitulo: "Uma boa forma de conhecer o profissional antes.",
-    options: [
-      { label: "Sim, é importante", value: "sim" },
-      { label: "Tanto faz", value: "" },
-    ],
+    subtitulo: "Opcional.",
+    options: [{ label: "Sim, é importante", value: "sim" }],
   },
 ];
 
@@ -99,36 +103,48 @@ function recomendar(ans: Answers): Rec[] {
     const reasons: string[] = [];
     let score = 0;
 
-    if (ans.especialidade) {
-      if (!t.especialidades.includes(ans.especialidade)) continue;
-      score += 3;
-      reasons.push(`Especialista em ${ans.especialidade} — exatamente o que você busca.`);
-    }
-    if (ans.modalidade) {
-      if (!t.modalidades.includes(ans.modalidade as never)) continue;
+    if (ans.modalidade.length) {
+      const m = ans.modalidade.filter((x) => t.modalidades.includes(x as never));
+      if (!m.length) continue;
       score += 2;
-      reasons.push(`Atende ${ans.modalidade.toLowerCase()}, como você prefere.`);
+      reasons.push(`Atende ${m.join(" e ").toLowerCase()}, como você prefere.`);
     }
-    if (ans.publico) {
-      if (!t.publicos.includes(ans.publico as never)) continue;
-      score += 2;
-      reasons.push(`Tem experiência com público ${ans.publico.toLowerCase()}.`);
-    }
-    if (ans.precoMax) {
-      if (t.preco > ans.precoMax) continue;
+    if (ans.genero.length) {
+      if (!ans.genero.includes(t.genero)) continue;
       score += 1;
-      reasons.push(`Valor dentro do seu orçamento (${formatBRL(t.preco)}).`);
+      reasons.push(
+        `Profissional ${t.genero === "mulher" ? "mulher" : "homem"}, como você preferiu.`,
+      );
     }
-    if (ans.abordagem && t.abordagens.includes(ans.abordagem)) {
+    if (ans.publico.length) {
+      const m = ans.publico.filter((p) => t.publicos.includes(p as never));
+      if (!m.length) continue;
       score += 2;
-      reasons.push(`Trabalha com a abordagem ${ans.abordagem}.`);
+      reasons.push(`Tem experiência com ${m.join(", ").toLowerCase()}.`);
     }
-    if (ans.primeiraGratuita === "sim" && t.primeiraGratuita) {
+    if (ans.horario.length) {
+      const m = ans.horario.filter(
+        (h) => t.disponibilidade[h as keyof Disponibilidade],
+      );
+      if (!m.length) continue;
+      score += 2;
+      reasons.push(
+        `Tem horário de ${m.map((h) => HLABEL[h]).join(", ")} disponível na agenda.`,
+      );
+    }
+    if (ans.abordagem.length) {
+      const m = ans.abordagem.filter((a) => t.abordagens.includes(a));
+      if (m.length) {
+        score += 2;
+        reasons.push(`Trabalha com ${m.join(", ")}.`);
+      }
+    }
+    if (ans.primeiraGratuita.includes("sim") && t.primeiraGratuita) {
       score += 1.5;
       reasons.push("Oferece a primeira consulta gratuita.");
     }
 
-    // sinais de qualidade — o destaque é uma forma adicional de recomendação
+    // qualidade — o destaque é uma forma adicional de recomendação
     score += t.notaMedia;
     if (t.destaque) score += 1;
     reasons.push(`Nota ${t.notaMedia.toFixed(1)} em ${t.totalAvaliacoes} avaliações.`);
@@ -140,13 +156,11 @@ function recomendar(ans: Answers): Rec[] {
 
 function toQuery(ans: Answers): string {
   const p = new URLSearchParams();
-  if (ans.especialidade) p.set("especialidade", ans.especialidade);
-  if (ans.abordagem) p.set("abordagem", ans.abordagem);
-  if (ans.publico) p.set("publico", ans.publico);
-  if (ans.precoMax) p.set("precoMax", String(ans.precoMax));
-  if (ans.modalidade === "Online") p.set("online", "1");
-  if (ans.modalidade === "Presencial") p.set("presencial", "1");
-  if (ans.primeiraGratuita === "sim") p.set("primeiraGratuita", "1");
+  if (ans.modalidade.includes("Online")) p.set("online", "1");
+  if (ans.modalidade.includes("Presencial")) p.set("presencial", "1");
+  if (ans.publico[0]) p.set("publico", ans.publico[0]);
+  if (ans.abordagem[0]) p.set("abordagem", ans.abordagem[0]);
+  if (ans.primeiraGratuita.includes("sim")) p.set("primeiraGratuita", "1");
   const s = p.toString();
   return s ? `/buscar?${s}` : "/buscar";
 }
@@ -154,27 +168,35 @@ function toQuery(ans: Answers): string {
 /* --------------------------------------------------------------- componente */
 export function DescobrirClient() {
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Answers>({});
+  const [answers, setAnswers] = useState<Answers>(vazio);
   const [done, setDone] = useState(false);
 
   const total = STEPS.length;
   const current = STEPS[step];
+  const selecionadas = answers[current.key];
 
-  function choose(value: string | number) {
-    const next = { ...answers, [current.key]: value === "" ? undefined : value };
-    setAnswers(next);
-    if (step < total - 1) {
-      setStep(step + 1);
-    } else {
-      setDone(true);
-    }
+  function toggle(value: string) {
+    setAnswers((prev) => {
+      const arr = prev[current.key];
+      return {
+        ...prev,
+        [current.key]: arr.includes(value)
+          ? arr.filter((x) => x !== value)
+          : [...arr, value],
+      };
+    });
+  }
+
+  function proximo() {
+    if (step < total - 1) setStep(step + 1);
+    else setDone(true);
   }
 
   const recs = useMemo(() => (done ? recomendar(answers) : []), [done, answers]);
   const top3 = recs.slice(0, 3);
 
   function reiniciar() {
-    setAnswers({});
+    setAnswers(vazio);
     setStep(0);
     setDone(false);
   }
@@ -242,7 +264,6 @@ export function DescobrirClient() {
   }
 
   /* ------------------------------------------------------------ PERGUNTAS */
-  const selected = answers[current.key];
   return (
     <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
       {/* Progresso */}
@@ -268,11 +289,11 @@ export function DescobrirClient() {
 
       <div className="mt-8 grid gap-3 sm:grid-cols-2">
         {current.options.map((opt) => {
-          const isSel = (selected ?? "") === opt.value;
+          const isSel = selecionadas.includes(opt.value);
           return (
             <button
-              key={String(opt.value) + opt.label}
-              onClick={() => choose(opt.value)}
+              key={opt.value}
+              onClick={() => toggle(opt.value)}
               className={`flex items-center justify-between rounded-2xl border-2 px-5 py-4 text-left text-sm font-medium transition ${
                 isSel
                   ? "border-primary bg-secondary-soft text-primary"
@@ -281,8 +302,10 @@ export function DescobrirClient() {
             >
               {opt.label}
               <span
-                className={`flex h-6 w-6 items-center justify-center rounded-full border ${
-                  isSel ? "border-primary bg-primary text-primary-foreground" : "border-border"
+                className={`flex h-6 w-6 items-center justify-center rounded-md border ${
+                  isSel
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border"
                 }`}
               >
                 {isSel && <Check className="h-4 w-4" />}
@@ -295,18 +318,16 @@ export function DescobrirClient() {
       {/* Navegação */}
       <div className="mt-8 flex items-center justify-between">
         <button
-          onClick={() => (step === 0 ? null : setStep(step - 1))}
+          onClick={() => setStep(Math.max(0, step - 1))}
           disabled={step === 0}
           className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground disabled:opacity-40"
         >
           <ArrowLeft className="h-4 w-4" /> Voltar
         </button>
-        <button
-          onClick={() => choose(selected ?? "")}
-          className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-primary hover:underline"
-        >
-          {step === total - 1 ? "Ver recomendações" : "Pular"} <ArrowRight className="h-4 w-4" />
-        </button>
+        <Button onClick={proximo} size="lg">
+          {step === total - 1 ? "Ver recomendações" : "Próximo"}{" "}
+          <ArrowRight className="h-5 w-5" />
+        </Button>
       </div>
 
       <p className="mt-6 text-center text-xs text-muted-foreground">
@@ -359,7 +380,6 @@ function RecCard({ rec, rank }: { rec: Rec; rank: number }) {
             )}
           </div>
 
-          {/* Por que é uma boa opção */}
           <div className="mt-4 rounded-xl bg-surface-muted/70 p-3">
             <p className="text-xs font-semibold uppercase tracking-wide text-primary">
               Por que combina com você

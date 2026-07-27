@@ -1,31 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Check, Save } from "lucide-react";
 import { PageHeader } from "@/components/dashboard/shell";
 import { Button } from "@/components/ui";
+import { DIAS, HORAS, getAgenda, saveAgenda, gridPadrao, type AgendaGrid } from "@/lib/agenda-store";
+import { getTerapeuta } from "@/lib/data";
 
-const DIAS = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-const HORAS = ["08:00", "09:00", "10:00", "11:00", "14:00", "15:00", "16:00", "17:00", "19:00"];
+// Terapeuta logado (protótipo): Ana Beatriz.
+const SLUG = "ana-beatriz-moraes";
 
 export default function AgendaPage() {
-  // true = livre, false = indisponível
-  const [grid, setGrid] = useState<Record<string, boolean>>(() => {
-    const g: Record<string, boolean> = {};
-    DIAS.forEach((d) =>
-      HORAS.forEach((h) => {
-        g[`${d}-${h}`] = !(h === "11:00" || d === "Sáb"); // almoço + sábado
-      }),
-    );
-    return g;
-  });
+  const disp = getTerapeuta(SLUG)?.disponibilidade ?? {
+    manha: true,
+    tarde: true,
+    noite: true,
+  };
+  const [grid, setGrid] = useState<AgendaGrid>(() => gridPadrao(disp));
+  const [salvo, setSalvo] = useState(false);
 
-  const toggle = (k: string) => setGrid((g) => ({ ...g, [k]: !g[k] }));
+  // Carrega a agenda salva no cliente.
+  useEffect(() => {
+    setGrid(getAgenda(SLUG, disp));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const toggle = (k: string) => {
+    setGrid((g) => ({ ...g, [k]: !g[k] }));
+    setSalvo(false);
+  };
+
+  function salvar() {
+    saveAgenda(SLUG, grid);
+    setSalvo(true);
+    setTimeout(() => setSalvo(false), 2500);
+  }
 
   return (
     <>
       <PageHeader
         title="Agenda"
-        subtitle="Clique nos horários para alternar entre livre e indisponível."
+        subtitle="Clique nos horários para alternar entre livre e indisponível. Ao salvar, a sua agenda é atualizada no seu perfil público."
       />
 
       <div className="mb-4 flex flex-wrap items-center gap-4 text-sm">
@@ -36,11 +51,18 @@ export default function AgendaPage() {
           <span className="h-3 w-3 rounded-full bg-surface-muted border border-border" />{" "}
           Indisponível
         </span>
-        <div className="ml-auto flex gap-2">
+        <div className="ml-auto flex items-center gap-2">
+          {salvo && (
+            <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
+              <Check className="h-4 w-4" /> Agenda atualizada no perfil
+            </span>
+          )}
           <Button variant="outline" size="sm">
             Configurar férias
           </Button>
-          <Button size="sm">Salvar agenda</Button>
+          <Button size="sm" onClick={salvar}>
+            <Save className="h-4 w-4" /> Salvar agenda
+          </Button>
         </div>
       </div>
 

@@ -10,6 +10,14 @@ export type Publico =
 
 export type Modalidade = "Online" | "Presencial";
 
+export type Genero = "homem" | "mulher";
+
+export interface Disponibilidade {
+  manha: boolean;
+  tarde: boolean;
+  noite: boolean;
+}
+
 export interface Avaliacao {
   id: string;
   paciente: string;
@@ -26,6 +34,8 @@ export interface Terapeuta {
   foto: string;
   cidade: string;
   estado: string;
+  genero: Genero;
+  disponibilidade: Disponibilidade;
   modalidades: Modalidade[];
   especialidades: string[];
   abordagens: string[];

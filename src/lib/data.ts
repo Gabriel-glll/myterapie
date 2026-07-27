@@ -89,6 +89,8 @@ export const TERAPEUTAS: Terapeuta[] = [
   {
     id: "1",
     slug: "ana-beatriz-moraes",
+    genero: "mulher",
+    disponibilidade: { manha: false, tarde: true, noite: true },
     nome: "Ana Beatriz Moraes",
     titulo: "Psicanalista clínica",
     foto: U("photo-1594824476967-48c8b964273f"),
@@ -139,6 +141,8 @@ export const TERAPEUTAS: Terapeuta[] = [
   {
     id: "2",
     slug: "carlos-eduardo-lima",
+    genero: "homem",
+    disponibilidade: { manha: true, tarde: true, noite: false },
     nome: "Carlos Eduardo Lima",
     titulo: "Psicanalista",
     foto: U("photo-1612349317150-e413f6a5b16d"),
@@ -177,6 +181,8 @@ export const TERAPEUTAS: Terapeuta[] = [
   {
     id: "3",
     slug: "fernanda-souza",
+    genero: "mulher",
+    disponibilidade: { manha: true, tarde: false, noite: true },
     nome: "Fernanda Souza",
     titulo: "Psicóloga · TCC",
     foto: U("photo-1573496359142-b8d87734a5a2"),
@@ -223,6 +229,8 @@ export const TERAPEUTAS: Terapeuta[] = [
   {
     id: "4",
     slug: "roberto-menezes",
+    genero: "homem",
+    disponibilidade: { manha: false, tarde: true, noite: true },
     nome: "Roberto Menezes",
     titulo: "Psicanalista · Casal e Família",
     foto: U("photo-1559839734-2b71ea197ec2"),
@@ -260,6 +268,8 @@ export const TERAPEUTAS: Terapeuta[] = [
   {
     id: "5",
     slug: "patricia-nogueira",
+    genero: "mulher",
+    disponibilidade: { manha: true, tarde: true, noite: false },
     nome: "Patrícia Nogueira",
     titulo: "Psicóloga · Junguiana",
     foto: U("photo-1580489944761-15a19d654956"),
@@ -297,6 +307,8 @@ export const TERAPEUTAS: Terapeuta[] = [
   {
     id: "6",
     slug: "andre-tavares",
+    genero: "homem",
+    disponibilidade: { manha: false, tarde: true, noite: true },
     nome: "André Tavares",
     titulo: "Psicanalista clínico",
     foto: U("photo-1607990281513-2c110a25bd8c"),
@@ -335,6 +347,8 @@ export const TERAPEUTAS: Terapeuta[] = [
   {
     id: "7",
     slug: "juliana-castro",
+    genero: "mulher",
+    disponibilidade: { manha: true, tarde: true, noite: false },
     nome: "Juliana Castro",
     titulo: "Psicóloga · Infantil",
     foto: U("photo-1544005313-94ddf0286df2"),
@@ -372,6 +386,8 @@ export const TERAPEUTAS: Terapeuta[] = [
   {
     id: "8",
     slug: "marcos-vieira",
+    genero: "homem",
+    disponibilidade: { manha: false, tarde: false, noite: true },
     nome: "Marcos Vieira",
     titulo: "Psicanalista",
     foto: U("photo-1551836022-d5d88e9218df"),

@@ -165,7 +165,12 @@ export default async function LandingPage({
             <span className="font-semibold text-foreground">{formatBRL(t.preco)}</span>.
           </p>
           <div className="mt-5 max-w-xl">
-            <AgendaWidget terapeuta={t.nome} agendaAberta={t.agendaAberta} />
+            <AgendaWidget
+              terapeuta={t.nome}
+              slug={t.slug}
+              disponibilidade={t.disponibilidade}
+              agendaAberta={t.agendaAberta}
+            />
           </div>
         </section>
 
