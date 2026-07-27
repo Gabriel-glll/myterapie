@@ -1,4 +1,4 @@
-import type { Terapeuta, Plano, BlogPost } from "./types";
+import type { Terapeuta, Plano, BlogPost, Artigo } from "./types";
 
 const U = (id: string) =>
   `https://images.unsplash.com/${id}?w=640&q=80&auto=format&fit=crop`;
@@ -467,3 +467,29 @@ export function getTerapeuta(slug: string) {
 export function getPost(slug: string) {
   return BLOG_POSTS.find((p) => p.slug === slug);
 }
+
+// Artigos escritos por terapeutas. (Enquanto não há artigos reais, textos
+// introdutórios com base em fontes confiáveis e link da fonte.)
+export const ARTIGOS: Artigo[] = [
+  {
+    slug: "entendendo-o-tea",
+    titulo: "Entendendo o TEA (Transtorno do Espectro Autista)",
+    categoria: "Neurodesenvolvimento",
+    autor: "Juliana Castro · Psicóloga",
+    resumo:
+      "O Transtorno do Espectro Autista (TEA) é uma condição do neurodesenvolvimento que afeta principalmente a comunicação, a interação social e o comportamento. Falamos em “espectro” porque cada pessoa é única: os sinais variam muito em intensidade. Entre as características mais comuns estão a dificuldade na comunicação verbal e não verbal, o desafio em iniciar e manter relações, interesses restritos e comportamentos repetitivos. Os primeiros sinais costumam aparecer nos primeiros anos de vida, e o diagnóstico — geralmente entre os 2 e 3 anos — abre portas para intervenções que fazem grande diferença. Com acolhimento, terapia e apoio da família, a pessoa autista desenvolve seu potencial e qualidade de vida. O papel do terapeuta é enxergar cada indivíduo em sua singularidade, sem rótulos.",
+    fonteNome: "OPAS/OMS",
+    fonteUrl: "https://www.paho.org/pt/topicos/transtorno-do-espectro-autista",
+  },
+  {
+    slug: "sindrome-de-williams",
+    titulo: "Síndrome de Williams: sociabilidade e cuidado",
+    categoria: "Genética e desenvolvimento",
+    autor: "Juliana Castro · Psicóloga",
+    resumo:
+      "A Síndrome de Williams (ou Williams-Beuren) é uma condição genética rara, causada pela perda de um pequeno pedaço do cromossomo 7. Estima-se que ocorra em cerca de 1 a cada 7.500 a 20.000 nascimentos. Entre suas características estão traços faciais marcantes, alterações cardiovasculares e deficiência intelectual — mas, curiosamente, com habilidades verbais preservadas e uma personalidade extremamente sociável, afetuosa e comunicativa. Por outro lado, é comum a presença de ansiedade e medos específicos. Compreender esse perfil ajuda famílias e terapeutas a valorizar os pontos fortes (a sociabilidade e a linguagem) e a apoiar as áreas mais sensíveis, como a regulação emocional. O acompanhamento psicológico contribui para o desenvolvimento social e o bem-estar da pessoa e de toda a família.",
+    fonteNome: "Manuais MSD",
+    fonteUrl:
+      "https://www.msdmanuals.com/pt/casa/problemas-de-sa%C3%BAde-infantil/anomalias-cromoss%C3%B4micas-e-gen%C3%A9ticas/considera%C3%A7%C3%B5es-gerais-sobre-s%C3%ADndromes-de-dele%C3%A7%C3%A3o-cromoss%C3%B4mica",
+  },
+];

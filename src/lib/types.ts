@@ -58,6 +58,16 @@ export interface Plano {
   destaque?: boolean;
 }
 
+export interface Artigo {
+  slug: string;
+  titulo: string;
+  categoria: string;
+  autor: string;
+  resumo: string;
+  fonteNome: string;
+  fonteUrl: string;
+}
+
 export interface BlogPost {
   slug: string;
   titulo: string;

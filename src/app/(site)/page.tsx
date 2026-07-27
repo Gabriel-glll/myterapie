@@ -9,8 +9,10 @@ import {
   ArrowRight,
   ShieldCheck,
   Star,
+  BookOpen,
+  ExternalLink,
 } from "lucide-react";
-import { TERAPEUTAS, ESPECIALIDADES, BLOG_POSTS } from "@/lib/data";
+import { TERAPEUTAS, ESPECIALIDADES, BLOG_POSTS, ARTIGOS } from "@/lib/data";
 import { TherapistCard } from "@/components/therapist-card";
 import { BannerCarousel } from "@/components/banner-carousel";
 import { Button, Badge } from "@/components/ui";
@@ -131,46 +133,46 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ============================================ ESPECIALIDADES */}
-      <section id="especialidades" className="bg-surface-muted/50 py-20">
+      {/* ============================================ DESTAQUES (acima das especialidades) */}
+      <section className="bg-surface-muted/50 py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <SectionTitle
-            eyebrow="Especialidades"
-            title="Para cada momento, um cuidado"
-            subtitle="Escolha o tema que mais faz sentido para você agora."
-          />
-          <div className="mt-10 flex flex-wrap justify-center gap-3">
-            {ESPECIALIDADES.map((e) => (
-              <Link
-                key={e}
-                href={`/buscar?especialidade=${encodeURIComponent(e)}`}
-                className="rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-medium text-foreground shadow-sm transition hover:-translate-y-0.5 hover:border-primary hover:text-primary"
-              >
-                {e}
-              </Link>
+          <div className="flex items-end justify-between">
+            <SectionTitle
+              align="left"
+              eyebrow="Profissionais em destaque"
+              title="Terapeutas bem avaliados"
+            />
+            <Link
+              href="/buscar"
+              className="hidden shrink-0 items-center gap-1 text-sm font-medium text-primary hover:underline sm:inline-flex"
+            >
+              Ver todos <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="mt-10 grid gap-6 lg:grid-cols-2">
+            {destaques.map((t) => (
+              <TherapistCard key={t.id} t={t} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ============================================ DESTAQUES */}
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <div className="flex items-end justify-between">
-          <SectionTitle
-            align="left"
-            eyebrow="Profissionais em destaque"
-            title="Terapeutas bem avaliados"
-          />
-          <Link
-            href="/buscar"
-            className="hidden shrink-0 items-center gap-1 text-sm font-medium text-primary hover:underline sm:inline-flex"
-          >
-            Ver todos <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-        <div className="mt-10 grid gap-6 lg:grid-cols-2">
-          {destaques.map((t) => (
-            <TherapistCard key={t.id} t={t} />
+      {/* ============================================ ESPECIALIDADES */}
+      <section id="especialidades" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+        <SectionTitle
+          eyebrow="Especialidades"
+          title="Para cada momento, um cuidado"
+          subtitle="Escolha o tema que mais faz sentido para você agora."
+        />
+        <div className="mt-10 flex flex-wrap justify-center gap-3">
+          {ESPECIALIDADES.map((e) => (
+            <Link
+              key={e}
+              href={`/buscar?especialidade=${encodeURIComponent(e)}`}
+              className="rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-medium text-foreground shadow-sm transition hover:-translate-y-0.5 hover:border-primary hover:text-primary"
+            >
+              {e}
+            </Link>
           ))}
         </div>
       </section>
@@ -214,6 +216,45 @@ export default function HomePage() {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ============================================ ARTIGOS */}
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+        <SectionTitle
+          eyebrow="Artigos"
+          title="Artigos dos nossos terapeutas"
+          subtitle="Conteúdos escritos por profissionais para informar e acolher."
+        />
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
+          {ARTIGOS.map((a) => (
+            <article
+              key={a.slug}
+              className="flex flex-col rounded-2xl border border-border bg-surface p-7 shadow-sm transition hover:shadow-lg"
+            >
+              <div className="flex items-center gap-2">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-secondary-soft text-primary">
+                  <BookOpen className="h-5 w-5" />
+                </span>
+                <Badge tone="primary">{a.categoria}</Badge>
+              </div>
+              <h3 className="mt-4 text-xl font-bold text-foreground">{a.titulo}</h3>
+              <p className="mt-3 flex-1 leading-relaxed text-muted-foreground">
+                {a.resumo}
+              </p>
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
+                <span className="text-sm text-muted-foreground">{a.autor}</span>
+                <a
+                  href={a.fonteUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+                >
+                  Fonte: {a.fonteNome} <ExternalLink className="h-4 w-4" />
+                </a>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
