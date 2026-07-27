@@ -27,7 +27,7 @@ export function Footer() {
           <FooterCol
             title="Plataforma"
             items={[
-              ["Encontrar terapeuta", "/buscar"],
+              ["Encontrar terapeuta", "/descobrir"],
               ["Sou terapeuta", "/para-terapeutas"],
               ["Planos", "/planos"],
               ["Blog", "/blog"],

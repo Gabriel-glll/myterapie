@@ -9,7 +9,7 @@ import { Button } from "./ui";
 import { getSession, logout, panelPath, type SessionUser } from "@/lib/auth";
 
 const links = [
-  { href: "/buscar", label: "Encontrar terapeuta" },
+  { href: "/descobrir", label: "Encontrar terapeuta" },
   { href: "/para-terapeutas", label: "Sou terapeuta" },
   { href: "/planos", label: "Planos" },
   { href: "/blog", label: "Blog" },
