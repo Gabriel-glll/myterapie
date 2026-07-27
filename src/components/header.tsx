@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, LogOut, UserCircle } from "lucide-react";
 import { Logo } from "./logo";
-import { ThemeToggle } from "./theme-toggle";
 import { Button } from "./ui";
 import { getSession, logout, panelPath, type SessionUser } from "@/lib/auth";
 
@@ -54,7 +53,6 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
-          <ThemeToggle />
           {user ? (
             <>
               <Button href={panelPath(user.role)} variant="outline" size="sm">
@@ -85,7 +83,6 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
-          <ThemeToggle />
           <button
             onClick={() => setOpen((o) => !o)}
             aria-label="Menu"

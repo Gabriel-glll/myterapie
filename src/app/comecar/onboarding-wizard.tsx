@@ -18,7 +18,6 @@ import {
   X,
 } from "lucide-react";
 import { Logo } from "@/components/logo";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui";
 import { getSession } from "@/lib/auth";
 import { ESPECIALIDADES, ABORDAGENS, IDIOMAS, PUBLICOS } from "@/lib/data";
@@ -106,14 +105,11 @@ export function OnboardingWizard() {
     <header className="sticky top-0 z-40 border-b border-border glass">
       <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-4 sm:px-6">
         <Logo />
-        <div className="flex items-center gap-3">
-          {step > 0 && !feito && (
-            <span className="hidden text-sm text-muted-foreground sm:inline">
-              Passo {step} de {totalPassos}
-            </span>
-          )}
-          <ThemeToggle />
-        </div>
+        {step > 0 && !feito && (
+          <span className="text-sm text-muted-foreground">
+            Passo {step} de {totalPassos}
+          </span>
+        )}
       </div>
     </header>
   );

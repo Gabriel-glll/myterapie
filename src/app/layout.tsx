@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import { themeScript } from "@/components/theme-toggle";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -23,10 +22,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning className={jakarta.variable}>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
+    <html lang="pt-BR" className={jakarta.variable}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

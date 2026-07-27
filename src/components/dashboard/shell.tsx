@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { Menu, X, LogOut, ArrowLeft } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Logo } from "@/components/logo";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { getSession, logout } from "@/lib/auth";
 
 export type NavItem = { href: string; label: string; icon: LucideIcon };
@@ -105,7 +104,6 @@ export function DashboardShell({
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <ThemeToggle />
             <span className="hidden h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary to-secondary text-sm font-semibold text-white sm:flex">
               {nome.slice(0, 1)}
             </span>
