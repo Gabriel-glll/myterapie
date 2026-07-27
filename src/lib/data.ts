@@ -1,4 +1,4 @@
-import type { Terapeuta, Plano, BlogPost, Artigo } from "./types";
+import type { Terapeuta, Plano, BlogPost, Artigo, Diferencial } from "./types";
 
 const U = (id: string) =>
   `https://images.unsplash.com/${id}?w=640&q=80&auto=format&fit=crop`;
@@ -478,6 +478,96 @@ export const BLOG_POSTS: BlogPost[] = [
 
 export function getTerapeuta(slug: string) {
   return TERAPEUTAS.find((t) => t.slug === slug);
+}
+
+// Diferenciais/histórias de cada terapeuta (o que apareceria no "sobre" e na
+// landing page). As tags conectam cada diferencial a públicos, abordagens e
+// temas — usadas para o cruzamento "por que combina com você".
+export const DIFERENCIAIS: Record<string, Diferencial[]> = {
+  "ana-beatriz-moraes": [
+    {
+      texto:
+        "Reconhecida pela escuta profunda em processos de ansiedade e autoconhecimento.",
+      tags: ["Adulto", "Psicanálise", "Ansiedade", "Autoconhecimento"],
+    },
+    {
+      texto: "Experiência acompanhando casais na reconstrução de vínculos.",
+      tags: ["Casal", "Relacionamentos"],
+    },
+  ],
+  "carlos-eduardo-lima": [
+    {
+      texto:
+        "Referência no acompanhamento de burnout e esgotamento profissional.",
+      tags: ["Adulto", "Estresse e Burnout", "Depressão"],
+    },
+    {
+      texto: "Atende idosos com foco no sentido de vida e na autoestima.",
+      tags: ["Idoso", "Autoestima"],
+    },
+  ],
+  "fernanda-souza": [
+    {
+      texto:
+        "Premiada pelo trabalho com adolescentes e com transtornos alimentares.",
+      tags: [
+        "Adolescente",
+        "Transtornos alimentares",
+        "Terapia Cognitivo-Comportamental",
+      ],
+    },
+    {
+      texto: "Usa ferramentas práticas da TCC para a ansiedade do dia a dia.",
+      tags: ["Adulto", "Ansiedade", "Terapia Cognitivo-Comportamental"],
+    },
+  ],
+  "roberto-menezes": [
+    {
+      texto:
+        "Especialista em terapia de casal e família, com abordagem sistêmica.",
+      tags: ["Casal", "Familiar", "Sistêmica", "Relacionamentos"],
+    },
+    {
+      texto: "Acolhe processos de luto com respeito ao tempo de cada pessoa.",
+      tags: ["Adulto", "Luto"],
+    },
+  ],
+  "patricia-nogueira": [
+    {
+      texto:
+        "Trabalho reconhecido com maternidade e com questões espirituais.",
+      tags: ["Adulto", "Familiar", "Maternidade", "Espiritualidade", "Junguiana"],
+    },
+  ],
+  "andre-tavares": [
+    {
+      texto:
+        "Referência no cuidado de traumas e na elaboração de experiências difíceis.",
+      tags: ["Adulto", "Traumas", "Psicanálise"],
+    },
+  ],
+  "juliana-castro": [
+    {
+      texto:
+        "Reconhecida pelo trabalho com crianças e adolescentes no espectro autista (TEA) e no neurodesenvolvimento.",
+      tags: ["Infantil", "Adolescente", "Gestalt-terapia"],
+    },
+    {
+      texto: "Escuta lúdica e afetuosa, com envolvimento ativo da família.",
+      tags: ["Infantil", "Familiar", "Humanista"],
+    },
+  ],
+  "marcos-vieira": [
+    {
+      texto:
+        "Oferece uma escuta livre de julgamentos para identidade e sexualidade.",
+      tags: ["Adulto", "Sexualidade", "Psicanálise"],
+    },
+  ],
+};
+
+export function getDiferenciais(slug: string): Diferencial[] {
+  return DIFERENCIAIS[slug] ?? [];
 }
 
 export function getPost(slug: string) {

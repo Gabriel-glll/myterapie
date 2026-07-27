@@ -18,6 +18,11 @@ export interface Disponibilidade {
   noite: boolean;
 }
 
+export interface Diferencial {
+  texto: string;
+  tags: string[];
+}
+
 export interface Avaliacao {
   id: string;
   paciente: string;

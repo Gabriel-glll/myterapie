@@ -12,7 +12,7 @@ import {
   Video,
   RotateCcw,
 } from "lucide-react";
-import { TERAPEUTAS, ABORDAGENS, PUBLICOS } from "@/lib/data";
+import { TERAPEUTAS, ABORDAGENS, PUBLICOS, getDiferenciais } from "@/lib/data";
 import type { Terapeuta, Disponibilidade } from "@/lib/types";
 import { formatBRL } from "@/lib/utils";
 import { Button, Stars } from "@/components/ui";
@@ -144,12 +144,32 @@ function recomendar(ans: Answers): Rec[] {
       reasons.push("Oferece a primeira consulta gratuita.");
     }
 
+    // Cruzamento com o "sobre" / landing: escolhe o diferencial que mais
+    // combina com o que a pessoa busca (público e abordagem).
+    const userTags = [...ans.publico, ...ans.abordagem];
+    const difs = getDiferenciais(t.slug);
+    let melhor: string | null = null;
+    let best = 0;
+    for (const d of difs) {
+      const overlap = d.tags.filter((tag) => userTags.includes(tag)).length;
+      if (overlap > best) {
+        best = overlap;
+        melhor = d.texto;
+      }
+    }
+    if (best > 0 && melhor) score += 1.5; // relevância real conta pontos
+    if (!melhor && difs.length) melhor = difs[0].texto; // destaque geral
+
     // qualidade — o destaque é uma forma adicional de recomendação
     score += t.notaMedia;
     if (t.destaque) score += 1;
-    reasons.push(`Nota ${t.notaMedia.toFixed(1)} em ${t.totalAvaliacoes} avaliações.`);
 
-    recs.push({ t, score, reasons: reasons.slice(0, 3) });
+    const finais: string[] = [];
+    if (melhor) finais.push(melhor);
+    finais.push(...reasons);
+    finais.push(`Nota ${t.notaMedia.toFixed(1)} em ${t.totalAvaliacoes} avaliações.`);
+
+    recs.push({ t, score, reasons: finais.slice(0, 4) });
   }
   return recs.sort((a, b) => b.score - a.score);
 }
